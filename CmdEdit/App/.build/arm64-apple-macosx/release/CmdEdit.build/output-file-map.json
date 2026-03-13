@@ -1,0 +1,19 @@
+{
+  "": {
+    "dependencies": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/CmdEdit.d",
+    "object": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/CmdEdit.o",
+    "swift-dependencies": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/master.swiftdeps"
+  },
+  "/Users/zai28/dev/CmdEdit/CmdEdit/App/Sources/CmdEdit/CmdEditApp.swift": {
+    "object": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/CmdEditApp.swift.o",
+    "swiftmodule": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/CmdEditApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/CmdEditApp.swiftdeps",
+    "diagnostics": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/CmdEditApp.dia"
+  },
+  "/Users/zai28/dev/CmdEdit/CmdEdit/App/Sources/CmdEdit/ContentView.swift": {
+    "object": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/ContentView.swift.o",
+    "swiftmodule": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/ContentView.swiftdeps",
+    "diagnostics": "/Users/zai28/dev/CmdEdit/CmdEdit/App/.build/arm64-apple-macosx/release/CmdEdit.build/ContentView.dia"
+  }
+}
