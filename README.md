@@ -132,8 +132,6 @@ No clipboard hacks are used.
 
 ## Project Structure
 
-The shipped native app lives under [`/Users/zai28/dev/CmdEdit/CmdEdit`](/Users/zai28/dev/CmdEdit/CmdEdit):
-
 ```text
 CmdEdit/
 ├── CmdEdit/
@@ -147,10 +145,10 @@ CmdEdit/
 
 Important paths:
 
-- native app source: [`/Users/zai28/dev/CmdEdit/CmdEdit/App`](/Users/zai28/dev/CmdEdit/CmdEdit/App)
-- shell integration: [`/Users/zai28/dev/CmdEdit/CmdEdit/ShellIntegration/cmdedit.zsh`](/Users/zai28/dev/CmdEdit/CmdEdit/ShellIntegration/cmdedit.zsh)
-- install script: [`/Users/zai28/dev/CmdEdit/CmdEdit/Scripts/install.sh`](/Users/zai28/dev/CmdEdit/CmdEdit/Scripts/install.sh)
-- uninstall script: [`/Users/zai28/dev/CmdEdit/CmdEdit/Scripts/uninstall.sh`](/Users/zai28/dev/CmdEdit/CmdEdit/Scripts/uninstall.sh)
+- native app source: `CmdEdit/App`
+- shell integration: `CmdEdit/ShellIntegration/cmdedit.zsh`
+- install script: `CmdEdit/Scripts/install.sh`
+- uninstall script: `CmdEdit/Scripts/uninstall.sh`
 
 ## Current Scope
 
@@ -188,4 +186,4 @@ What is not done yet:
 
 ## License
 
-[MIT](/Users/zai28/dev/CmdEdit/LICENSE)
+[MIT](LICENSE)
