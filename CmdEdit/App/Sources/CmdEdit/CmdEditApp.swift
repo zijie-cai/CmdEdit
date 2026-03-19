@@ -23,17 +23,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var inputFile = ""
         var outputFile = ""
         var statusFile = ""
+        var historyFile = ""
         
         if args.count >= 4 {
             inputFile = args[1]
             outputFile = args[2]
             statusFile = args[3]
         }
+
+        if args.count >= 5 {
+            historyFile = args[4]
+        }
         
         let initialText = (try? String(contentsOfFile: inputFile)) ?? ""
-
         let contentView = ContentView(
             initialText: initialText,
+            historyFile: historyFile,
             outputFile: outputFile,
             statusFile: statusFile
         )
@@ -80,6 +85,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
+
 }
 
 enum AppIconImage {
