@@ -139,6 +139,7 @@ CmdEdit/
 │   ├── Scripts/
 │   ├── ShellIntegration/
 │   └── build/
+├── cmdedit-landing-page/
 ├── README.md
 └── LICENSE
 ```
@@ -149,6 +150,7 @@ Important paths:
 - shell integration: `CmdEdit/ShellIntegration/cmdedit.zsh`
 - install script: `CmdEdit/Scripts/install.sh`
 - uninstall script: `CmdEdit/Scripts/uninstall.sh`
+- landing page source: `cmdedit-landing-page/`
 
 ## Current Scope
 
