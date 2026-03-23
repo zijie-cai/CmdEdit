@@ -92,6 +92,9 @@ export function Demo() {
             <div className="flex-1 text-center text-white/50 text-xs font-sans font-medium">
               user — -zsh — 80x24
             </div>
+            <div className="absolute right-4 text-white/30 text-[10px] font-sans font-bold uppercase tracking-widest px-2 py-1 rounded-md border border-white/10 bg-white/5">
+              Demo
+            </div>
           </div>
           
           <div className="p-4 flex flex-col gap-2 font-mono text-[13px] text-white/90">

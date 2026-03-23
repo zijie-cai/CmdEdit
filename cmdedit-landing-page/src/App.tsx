@@ -103,7 +103,7 @@ export default function App() {
         </main>
 
         {/* Footer */}
-        <footer className="flex items-center gap-6">
+        <footer className="flex items-center justify-between w-full">
           <a 
             href="https://github.com/zijie-cai/CmdEdit" 
             target="_blank" 
@@ -113,6 +113,17 @@ export default function App() {
             View Source on GitHub
             <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
           </a>
+          <div className="text-xs text-black/40 font-medium">
+            Built by{' '}
+            <a 
+              href="https://zijiecai.com" 
+              target="_blank" 
+              rel="noreferrer"
+              className="text-black/70 hover:text-[#0044FF] transition-colors underline decoration-black/30 hover:decoration-[#0044FF] underline-offset-4"
+            >
+              Zijie Cai
+            </a>
+          </div>
         </footer>
       </div>
 
