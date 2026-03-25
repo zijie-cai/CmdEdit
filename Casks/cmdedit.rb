@@ -7,8 +7,8 @@ cask "cmdedit" do
   desc "Native macOS command editor overlay for zsh"
   homepage "https://github.com/zijie-cai/CmdEdit"
 
-  app "CmdEdit.app"
-  artifact "cmdedit.zsh", target: "#{Dir.home}/.cmdedit/cmdedit.zsh"
+  app "CmdEdit-#{version}/CmdEdit.app"
+  artifact "CmdEdit-#{version}/cmdedit.zsh", target: "#{Dir.home}/.cmdedit/cmdedit.zsh"
 
   preflight do
     FileUtils.mkdir_p(File.expand_path("~/.cmdedit"))
