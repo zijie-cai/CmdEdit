@@ -673,6 +673,28 @@ private struct CommandEditor: NSViewRepresentable {
     @Binding var text: String
     var isFocused: FocusState<Bool>.Binding
 
+    private static let commandFont = NSFont.monospacedSystemFont(ofSize: 15, weight: .regular)
+    private static let commandTextColor = NSColor(calibratedRed: 0.95, green: 0.95, blue: 0.96, alpha: 1.0)
+
+    private static func applyVisibleTextStyle(to textView: NSTextView) {
+        let typingAttributes: [NSAttributedString.Key: Any] = [
+            .font: commandFont,
+            .foregroundColor: commandTextColor
+        ]
+
+        textView.font = commandFont
+        textView.textColor = commandTextColor
+        textView.insertionPointColor = commandTextColor
+        textView.typingAttributes = typingAttributes
+        textView.selectedTextAttributes = [
+            .backgroundColor: NSColor.controlAccentColor.withAlphaComponent(0.38),
+            .foregroundColor: commandTextColor
+        ]
+
+        let fullRange = NSRange(location: 0, length: textView.string.utf16.count)
+        textView.textStorage?.setAttributes(typingAttributes, range: fullRange)
+    }
+
     func makeCoordinator() -> Coordinator {
         Coordinator(text: $text)
     }
@@ -686,34 +708,19 @@ private struct CommandEditor: NSViewRepresentable {
         scrollView.autohidesScrollers = true
 
         let textView = NSTextView()
-        let commandTextColor = NSColor(calibratedRed: 0.95, green: 0.95, blue: 0.96, alpha: 1.0)
         textView.isRichText = false
         textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.isAutomaticDashSubstitutionEnabled = false
         textView.isAutomaticTextReplacementEnabled = false
         textView.isGrammarCheckingEnabled = false
         textView.isContinuousSpellCheckingEnabled = false
-        textView.font = .monospacedSystemFont(ofSize: 15, weight: .regular)
-        textView.textColor = commandTextColor
         textView.backgroundColor = .clear
-        textView.insertionPointColor = commandTextColor
-        textView.typingAttributes = [
-            .font: NSFont.monospacedSystemFont(ofSize: 15, weight: .regular),
-            .foregroundColor: commandTextColor
-        ]
-        textView.selectedTextAttributes = [
-            .backgroundColor: NSColor.controlAccentColor.withAlphaComponent(0.38),
-            .foregroundColor: commandTextColor
-        ]
         textView.textContainerInset = NSSize(width: 18, height: 18)
         textView.string = text
         textView.delegate = context.coordinator
         textView.drawsBackground = true
         textView.backgroundColor = NSColor(calibratedWhite: 0.10, alpha: 1.0)
-        textView.textStorage?.setAttributes([
-            .font: NSFont.monospacedSystemFont(ofSize: 15, weight: .regular),
-            .foregroundColor: commandTextColor
-        ], range: NSRange(location: 0, length: textView.string.utf16.count))
+        Self.applyVisibleTextStyle(to: textView)
 
         scrollView.documentView = textView
         context.coordinator.textView = textView
@@ -725,8 +732,9 @@ private struct CommandEditor: NSViewRepresentable {
 
         if textView.string != text {
             textView.string = text
-            textView.textStorage?.setAttributes(textView.typingAttributes, range: NSRange(location: 0, length: textView.string.utf16.count))
         }
+
+        Self.applyVisibleTextStyle(to: textView)
 
         if isFocused.wrappedValue, textView.window?.firstResponder !== textView {
             textView.window?.makeFirstResponder(textView)
@@ -743,11 +751,13 @@ private struct CommandEditor: NSViewRepresentable {
 
         func textDidChange(_ notification: Notification) {
             guard let textView else { return }
+            CommandEditor.applyVisibleTextStyle(to: textView)
             text = textView.string
         }
 
         func textDidEndEditing(_ notification: Notification) {
             guard let textView else { return }
+            CommandEditor.applyVisibleTextStyle(to: textView)
             text = textView.string
         }
     }
