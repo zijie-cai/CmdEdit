@@ -5,6 +5,11 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      version:
+        description: Release version without the leading v
+        required: false
+        default: "0.1.0"
 
 permissions:
   contents: write
@@ -25,7 +30,7 @@ jobs:
           if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
             VERSION="${GITHUB_REF_NAME#v}"
           else
-            VERSION="0.1.0"
+            VERSION="${{ github.event.inputs.version || '0.1.0' }}"
           fi
           echo "value=$VERSION" >> "$GITHUB_OUTPUT"
 
@@ -105,6 +110,7 @@ jobs:
           shasum -a 256 release/CmdEdit-${{ steps.version.outputs.value }}.zip > release/CmdEdit-${{ steps.version.outputs.value }}.sha256
 
       - name: Upload release assets
+        if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
           files: |
