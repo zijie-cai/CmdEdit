@@ -102,17 +102,19 @@ jobs:
         shell: bash
         run: spctl --assess --type execute --verbose=2 CmdEdit/build/CmdEdit.app
 
-      - name: Create release zip
+      - name: Create packaged release zip
+        shell: bash
+        run: bash CmdEdit/Scripts/package-release.sh "${{ steps.version.outputs.value }}"
+
+      - name: Create release checksum
         shell: bash
         run: |
-          mkdir -p release
-          ditto -c -k --sequesterRsrc --keepParent CmdEdit/build/CmdEdit.app release/CmdEdit-${{ steps.version.outputs.value }}.zip
-          shasum -a 256 release/CmdEdit-${{ steps.version.outputs.value }}.zip > release/CmdEdit-${{ steps.version.outputs.value }}.sha256
+          shasum -a 256 CmdEdit/release/CmdEdit.zip > CmdEdit/release/CmdEdit.sha256
 
       - name: Upload release assets
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/CmdEdit-${{ steps.version.outputs.value }}.zip
-            release/CmdEdit-${{ steps.version.outputs.value }}.sha256
+            CmdEdit/release/CmdEdit.zip
+            CmdEdit/release/CmdEdit.sha256

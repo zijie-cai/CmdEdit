@@ -9,7 +9,7 @@ if [[ -z "$VERSION" ]]; then
 fi
 
 STAGING_ROOT="$ROOT_DIR/release/CmdEdit-$VERSION"
-ZIP_PATH="$ROOT_DIR/release/CmdEdit-$VERSION.zip"
+ZIP_PATH="$ROOT_DIR/release/CmdEdit.zip"
 
 echo "Packaging CmdEdit $VERSION..."
 bash "$ROOT_DIR/Scripts/build.sh" "$VERSION"

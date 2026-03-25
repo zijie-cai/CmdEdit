@@ -18,7 +18,7 @@ cask "cmdedit" do
   version "$VERSION"
   sha256 "$SHA256"
 
-  url "https://github.com/zijie-cai/CmdEdit/releases/download/v$VERSION/CmdEdit-$VERSION.zip"
+  url "https://github.com/zijie-cai/CmdEdit/releases/download/v$VERSION/CmdEdit.zip"
   name "CmdEdit"
   desc "Native macOS command editor overlay for zsh"
   homepage "https://github.com/zijie-cai/CmdEdit"
