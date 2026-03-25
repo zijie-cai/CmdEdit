@@ -46,14 +46,19 @@ APP_BUNDLE="$(find_app_bundle || true)"
 ZSH_SOURCE="$(find_zsh_source || true)"
 
 if [[ -z "$APP_BUNDLE" ]]; then
-  if [[ -x "$ROOT_DIR/Scripts/build.sh" && -d "$ROOT_DIR/App" ]]; then
+  if [[ -f "$ROOT_DIR/Scripts/build.sh" && -d "$ROOT_DIR/App" ]]; then
     echo "Building CmdEdit..."
     bash "$ROOT_DIR/Scripts/build.sh"
-    APP_BUNDLE="$(find_app_bundle)"
+    APP_BUNDLE="$(find_app_bundle || true)"
   else
     echo "CmdEdit.app not found in $ROOT_DIR."
     exit 1
   fi
+fi
+
+if [[ -z "$APP_BUNDLE" ]]; then
+  echo "Build completed but CmdEdit.app was not created in $ROOT_DIR."
+  exit 1
 fi
 
 if [[ -z "$ZSH_SOURCE" ]]; then
