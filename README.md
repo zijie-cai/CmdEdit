@@ -4,7 +4,7 @@ CmdEdit is a native macOS command editor overlay for `zsh`.
 
 Press `Ctrl+E`, edit the current shell command in a focused floating window, browse command history, star reusable commands, and save the result back to your prompt.
 
-[Website](https://zijie-cai.github.io/CmdEdit/)
+[Demo](https://zijie-cai.github.io/CmdEdit/)
 
 ## What It Does
 
