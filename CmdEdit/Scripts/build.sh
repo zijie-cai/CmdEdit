@@ -5,6 +5,7 @@ cd "$(dirname "$0")/.."
 
 VERSION="${1:-1.0.0}"
 APP_DIR="build/CmdEdit.app"
+BUNDLE_ID="${CMDEDIT_BUNDLE_ID:-com.zijiecai.cmdedit}"
 
 echo "Building CmdEdit..."
 cd App
@@ -25,8 +26,10 @@ cat > "../$APP_DIR/Contents/Info.plist" <<EOF
     <key>CFBundleExecutable</key>
     <string>CmdEdit</string>
     <key>CFBundleIdentifier</key>
-    <string>com.cmdedit.app</string>
+    <string>$BUNDLE_ID</string>
     <key>CFBundleName</key>
+    <string>CmdEdit</string>
+    <key>CFBundleDisplayName</key>
     <string>CmdEdit</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
@@ -34,7 +37,11 @@ cat > "../$APP_DIR/Contents/Info.plist" <<EOF
     <string>$VERSION</string>
     <key>CFBundleVersion</key>
     <string>$VERSION</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
     <key>LSUIElement</key>
+    <true/>
+    <key>NSHighResolutionCapable</key>
     <true/>
 </dict>
 </plist>
