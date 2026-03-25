@@ -10,11 +10,13 @@ cask "cmdedit" do
   app "CmdEdit.app"
   artifact "cmdedit.zsh", target: "#{Dir.home}/.cmdedit/cmdedit.zsh"
 
-  postflight do
+  preflight do
     FileUtils.mkdir_p(File.expand_path("~/.cmdedit"))
+  end
 
+  postflight do
     zshrc = File.expand_path("~/.zshrc")
-    snippet = '[[ -f "/Users/zai28/.cmdedit/cmdedit.zsh" ]] && source "/Users/zai28/.cmdedit/cmdedit.zsh"'
+    snippet = '[[ -f "$HOME/.cmdedit/cmdedit.zsh" ]] && source "$HOME/.cmdedit/cmdedit.zsh"'
 
     unless File.exist?(zshrc) && File.read(zshrc).include?(snippet)
       File.open(zshrc, "a") do |file|
