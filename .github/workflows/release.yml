@@ -70,7 +70,6 @@ jobs:
         shell: bash
         run: |
           codesign --verify --deep --strict --verbose=2 CmdEdit/build/CmdEdit.app
-          spctl --assess --type execute --verbose=2 CmdEdit/build/CmdEdit.app
 
       - name: Create unsigned-notarization zip
         shell: bash
@@ -93,6 +92,10 @@ jobs:
       - name: Staple notarization ticket
         shell: bash
         run: xcrun stapler staple CmdEdit/build/CmdEdit.app
+
+      - name: Verify notarized app
+        shell: bash
+        run: spctl --assess --type execute --verbose=2 CmdEdit/build/CmdEdit.app
 
       - name: Create release zip
         shell: bash
