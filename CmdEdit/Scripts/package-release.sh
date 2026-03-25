@@ -20,6 +20,8 @@ mkdir -p "$STAGING_ROOT"
 cp -R "$ROOT_DIR/build/CmdEdit.app" "$STAGING_ROOT/CmdEdit.app"
 cp "$ROOT_DIR/Scripts/install.sh" "$STAGING_ROOT/install.sh"
 cp "$ROOT_DIR/Scripts/uninstall.sh" "$STAGING_ROOT/uninstall.sh"
+cp "$ROOT_DIR/Scripts/install.sh" "$STAGING_ROOT/install.command"
+cp "$ROOT_DIR/Scripts/uninstall.sh" "$STAGING_ROOT/uninstall.command"
 cp "$ROOT_DIR/ShellIntegration/cmdedit.zsh" "$STAGING_ROOT/cmdedit.zsh"
 cp "$ROOT_DIR/../LICENSE" "$STAGING_ROOT/LICENSE"
 
@@ -28,15 +30,17 @@ CmdEdit $VERSION
 
 Install:
   bash install.sh
+  or double-click install.command
 
 Uninstall:
   bash uninstall.sh
+  or double-click uninstall.command
 
 After install:
   source ~/.zshrc
 EOF
 
-chmod +x "$STAGING_ROOT/install.sh" "$STAGING_ROOT/uninstall.sh"
+chmod +x "$STAGING_ROOT/install.sh" "$STAGING_ROOT/uninstall.sh" "$STAGING_ROOT/install.command" "$STAGING_ROOT/uninstall.command"
 
 mkdir -p "$ROOT_DIR/release"
 ditto -c -k --sequesterRsrc --keepParent "$STAGING_ROOT" "$ZIP_PATH"
@@ -50,4 +54,4 @@ echo "SHA256:"
 echo "  $SHA"
 echo ""
 echo "Next step:"
-echo "  bash Scripts/generate-homebrew-formula.sh $VERSION $SHA"
+echo "  bash Scripts/generate-homebrew-cask.sh $VERSION $SHA"

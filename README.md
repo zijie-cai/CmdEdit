@@ -20,13 +20,19 @@ CmdEdit makes shell command editing less painful without replacing your terminal
 
 1. Download the latest release zip
 2. Unzip the file
-3. Run `install.sh`
+3. Double-click `install.command`
 4. Run `source ~/.zshrc`
 
 Or install from source:
 
 ```bash
 git clone --depth 1 https://github.com/zijie-cai/CmdEdit.git && bash CmdEdit/CmdEdit/Scripts/install.sh && source ~/.zshrc
+```
+
+Or install with Homebrew:
+
+```bash
+brew install --cask zijie-cai/cmdedit/cmdedit && source ~/.zshrc
 ```
 
 ## Requirements
@@ -65,6 +71,18 @@ Create a release tag:
 
 ```bash
 bash CmdEdit/Scripts/release.sh 1.0.0
+```
+
+Build a release zip locally:
+
+```bash
+bash CmdEdit/Scripts/package-release.sh 1.0.0
+```
+
+Generate a Homebrew cask:
+
+```bash
+bash CmdEdit/Scripts/generate-homebrew-cask.sh 1.0.0 <sha256>
 ```
 
 ## License
