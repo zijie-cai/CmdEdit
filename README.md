@@ -32,7 +32,7 @@ git clone --depth 1 https://github.com/zijie-cai/CmdEdit.git && bash CmdEdit/Cmd
 Or install with Homebrew:
 
 ```bash
-brew install --cask zijie-cai/cmdedit/cmdedit && source ~/.zshrc
+brew tap zijie-cai/cmdedit && brew install --cask cmdedit && source ~/.zshrc
 ```
 
 ## Requirements
