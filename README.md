@@ -54,37 +54,6 @@ xcode-select --install
 - `Cmd+Shift+H` opens command history
 - `Esc` cancels or goes back
 
-## Download
-
-- [Latest Release](https://github.com/zijie-cai/CmdEdit/releases/latest)
-- [Release Notes](https://github.com/zijie-cai/CmdEdit/releases)
-
-## For Developers
-
-Build and install from the repo:
-
-```bash
-bash CmdEdit/Scripts/install.sh
-```
-
-Create a release tag:
-
-```bash
-bash CmdEdit/Scripts/release.sh 1.0.0
-```
-
-Build a release zip locally:
-
-```bash
-bash CmdEdit/Scripts/package-release.sh 1.0.0
-```
-
-Generate a Homebrew cask:
-
-```bash
-bash CmdEdit/Scripts/generate-homebrew-cask.sh 1.0.0 <sha256>
-```
-
 ## License
 
 [MIT](LICENSE)
