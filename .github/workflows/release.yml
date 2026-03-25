@@ -34,6 +34,7 @@ jobs:
         run: bash CmdEdit/Scripts/build.sh "${{ steps.version.outputs.value }}"
 
       - name: Import signing certificate
+        id: import-signing-certificate
         env:
           APPLE_SIGNING_CERT_BASE64: ${{ secrets.APPLE_SIGNING_CERT_BASE64 }}
           APPLE_SIGNING_CERT_PASSWORD: ${{ secrets.APPLE_SIGNING_CERT_PASSWORD }}
@@ -48,14 +49,21 @@ jobs:
           security import "$CERT_PATH" -P "$APPLE_SIGNING_CERT_PASSWORD" -A -f pkcs12 -k "$KEYCHAIN_PATH"
           security set-key-partition-list -S apple-tool:,apple: -k "" "$KEYCHAIN_PATH"
           security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | tr -d '"')
+          security default-keychain -d user -s "$KEYCHAIN_PATH"
+          IDENTITY=$(security find-identity -v -p codesigning "$KEYCHAIN_PATH" | sed -n 's/.*"\(.*Developer ID Application.*\)"/\1/p' | head -n 1)
+          if [[ -z "$IDENTITY" ]]; then
+            echo "No Developer ID Application identity found after certificate import."
+            security find-identity -v -p codesigning "$KEYCHAIN_PATH" || true
+            exit 1
+          fi
+          echo "Resolved signing identity: $IDENTITY"
+          echo "identity=$IDENTITY" >> "$GITHUB_OUTPUT"
 
       - name: Codesign app
-        env:
-          APPLE_DEVELOPER_ID_APPLICATION: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION }}
         shell: bash
         run: |
           codesign --force --deep --options runtime --timestamp \
-            --sign "$APPLE_DEVELOPER_ID_APPLICATION" \
+            --sign "${{ steps.import-signing-certificate.outputs.identity }}" \
             CmdEdit/build/CmdEdit.app
 
       - name: Verify codesign
