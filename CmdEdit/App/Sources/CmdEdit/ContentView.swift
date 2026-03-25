@@ -686,6 +686,7 @@ private struct CommandEditor: NSViewRepresentable {
         scrollView.autohidesScrollers = true
 
         let textView = NSTextView()
+        let commandTextColor = NSColor(calibratedRed: 0.95, green: 0.95, blue: 0.96, alpha: 1.0)
         textView.isRichText = false
         textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.isAutomaticDashSubstitutionEnabled = false
@@ -693,14 +694,26 @@ private struct CommandEditor: NSViewRepresentable {
         textView.isGrammarCheckingEnabled = false
         textView.isContinuousSpellCheckingEnabled = false
         textView.font = .monospacedSystemFont(ofSize: 15, weight: .regular)
-        textView.textColor = NSColor.labelColor
+        textView.textColor = commandTextColor
         textView.backgroundColor = .clear
-        textView.insertionPointColor = NSColor.labelColor
+        textView.insertionPointColor = commandTextColor
+        textView.typingAttributes = [
+            .font: NSFont.monospacedSystemFont(ofSize: 15, weight: .regular),
+            .foregroundColor: commandTextColor
+        ]
+        textView.selectedTextAttributes = [
+            .backgroundColor: NSColor.controlAccentColor.withAlphaComponent(0.38),
+            .foregroundColor: commandTextColor
+        ]
         textView.textContainerInset = NSSize(width: 18, height: 18)
         textView.string = text
         textView.delegate = context.coordinator
         textView.drawsBackground = true
         textView.backgroundColor = NSColor(calibratedWhite: 0.10, alpha: 1.0)
+        textView.textStorage?.setAttributes([
+            .font: NSFont.monospacedSystemFont(ofSize: 15, weight: .regular),
+            .foregroundColor: commandTextColor
+        ], range: NSRange(location: 0, length: textView.string.utf16.count))
 
         scrollView.documentView = textView
         context.coordinator.textView = textView
@@ -712,6 +725,7 @@ private struct CommandEditor: NSViewRepresentable {
 
         if textView.string != text {
             textView.string = text
+            textView.textStorage?.setAttributes(textView.typingAttributes, range: NSRange(location: 0, length: textView.string.utf16.count))
         }
 
         if isFocused.wrappedValue, textView.window?.firstResponder !== textView {
