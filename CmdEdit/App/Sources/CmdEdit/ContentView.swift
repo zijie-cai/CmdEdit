@@ -669,31 +669,45 @@ private final class HistorySearchBarView: NSView {
     }
 }
 
+private final class VisibleCommandTextView: NSTextView {
+    static let commandFont = NSFont.monospacedSystemFont(ofSize: 15, weight: .regular)
+    static let commandTextColor = NSColor(calibratedRed: 0.95, green: 0.95, blue: 0.96, alpha: 1.0)
+
+    func applyVisibleStyle() {
+        let visibleTypingAttributes: [NSAttributedString.Key: Any] = [
+            .font: Self.commandFont,
+            .foregroundColor: Self.commandTextColor
+        ]
+
+        appearance = NSAppearance(named: .darkAqua)
+        font = Self.commandFont
+        textColor = Self.commandTextColor
+        insertionPointColor = Self.commandTextColor
+        backgroundColor = NSColor(calibratedWhite: 0.10, alpha: 1.0)
+        typingAttributes = visibleTypingAttributes
+        selectedTextAttributes = [
+            .backgroundColor: NSColor.controlAccentColor.withAlphaComponent(0.38),
+            .foregroundColor: Self.commandTextColor
+        ]
+
+        let fullRange = NSRange(location: 0, length: string.utf16.count)
+        textStorage?.setAttributes(visibleTypingAttributes, range: fullRange)
+    }
+
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        applyVisibleStyle()
+    }
+
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        applyVisibleStyle()
+    }
+}
+
 private struct CommandEditor: NSViewRepresentable {
     @Binding var text: String
     var isFocused: FocusState<Bool>.Binding
-
-    private static let commandFont = NSFont.monospacedSystemFont(ofSize: 15, weight: .regular)
-    private static let commandTextColor = NSColor(calibratedRed: 0.95, green: 0.95, blue: 0.96, alpha: 1.0)
-
-    private static func applyVisibleTextStyle(to textView: NSTextView) {
-        let typingAttributes: [NSAttributedString.Key: Any] = [
-            .font: commandFont,
-            .foregroundColor: commandTextColor
-        ]
-
-        textView.font = commandFont
-        textView.textColor = commandTextColor
-        textView.insertionPointColor = commandTextColor
-        textView.typingAttributes = typingAttributes
-        textView.selectedTextAttributes = [
-            .backgroundColor: NSColor.controlAccentColor.withAlphaComponent(0.38),
-            .foregroundColor: commandTextColor
-        ]
-
-        let fullRange = NSRange(location: 0, length: textView.string.utf16.count)
-        textView.textStorage?.setAttributes(typingAttributes, range: fullRange)
-    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(text: $text)
@@ -701,13 +715,14 @@ private struct CommandEditor: NSViewRepresentable {
 
     func makeNSView(context: Context) -> NSScrollView {
         let scrollView = NSScrollView()
+        scrollView.appearance = NSAppearance(named: .darkAqua)
         scrollView.drawsBackground = false
         scrollView.borderType = .noBorder
         scrollView.hasVerticalScroller = false
         scrollView.hasHorizontalScroller = false
         scrollView.autohidesScrollers = true
 
-        let textView = NSTextView()
+        let textView = VisibleCommandTextView()
         textView.isRichText = false
         textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.isAutomaticDashSubstitutionEnabled = false
@@ -719,8 +734,7 @@ private struct CommandEditor: NSViewRepresentable {
         textView.string = text
         textView.delegate = context.coordinator
         textView.drawsBackground = true
-        textView.backgroundColor = NSColor(calibratedWhite: 0.10, alpha: 1.0)
-        Self.applyVisibleTextStyle(to: textView)
+        textView.applyVisibleStyle()
 
         scrollView.documentView = textView
         context.coordinator.textView = textView
@@ -734,7 +748,7 @@ private struct CommandEditor: NSViewRepresentable {
             textView.string = text
         }
 
-        Self.applyVisibleTextStyle(to: textView)
+        textView.applyVisibleStyle()
 
         if isFocused.wrappedValue, textView.window?.firstResponder !== textView {
             textView.window?.makeFirstResponder(textView)
@@ -743,7 +757,7 @@ private struct CommandEditor: NSViewRepresentable {
 
     final class Coordinator: NSObject, NSTextViewDelegate {
         @Binding var text: String
-        weak var textView: NSTextView?
+        weak var textView: VisibleCommandTextView?
 
         init(text: Binding<String>) {
             _text = text
@@ -751,13 +765,13 @@ private struct CommandEditor: NSViewRepresentable {
 
         func textDidChange(_ notification: Notification) {
             guard let textView else { return }
-            CommandEditor.applyVisibleTextStyle(to: textView)
+            textView.applyVisibleStyle()
             text = textView.string
         }
 
         func textDidEndEditing(_ notification: Notification) {
             guard let textView else { return }
-            CommandEditor.applyVisibleTextStyle(to: textView)
+            textView.applyVisibleStyle()
             text = textView.string
         }
     }
