@@ -669,42 +669,6 @@ private final class HistorySearchBarView: NSView {
     }
 }
 
-private final class VisibleCommandTextView: NSTextView {
-    static let commandFont = NSFont.monospacedSystemFont(ofSize: 15, weight: .regular)
-    static let commandTextColor = NSColor(calibratedRed: 0.95, green: 0.95, blue: 0.96, alpha: 1.0)
-
-    func applyVisibleStyle() {
-        let visibleTypingAttributes: [NSAttributedString.Key: Any] = [
-            .font: Self.commandFont,
-            .foregroundColor: Self.commandTextColor
-        ]
-
-        appearance = NSAppearance(named: .darkAqua)
-        font = Self.commandFont
-        textColor = Self.commandTextColor
-        insertionPointColor = Self.commandTextColor
-        backgroundColor = NSColor(calibratedWhite: 0.10, alpha: 1.0)
-        typingAttributes = visibleTypingAttributes
-        selectedTextAttributes = [
-            .backgroundColor: NSColor.controlAccentColor.withAlphaComponent(0.38),
-            .foregroundColor: Self.commandTextColor
-        ]
-
-        let fullRange = NSRange(location: 0, length: string.utf16.count)
-        textStorage?.setAttributes(visibleTypingAttributes, range: fullRange)
-    }
-
-    override func viewDidMoveToWindow() {
-        super.viewDidMoveToWindow()
-        applyVisibleStyle()
-    }
-
-    override func viewDidChangeEffectiveAppearance() {
-        super.viewDidChangeEffectiveAppearance()
-        applyVisibleStyle()
-    }
-}
-
 private struct CommandEditor: NSViewRepresentable {
     @Binding var text: String
     var isFocused: FocusState<Bool>.Binding
@@ -715,26 +679,28 @@ private struct CommandEditor: NSViewRepresentable {
 
     func makeNSView(context: Context) -> NSScrollView {
         let scrollView = NSScrollView()
-        scrollView.appearance = NSAppearance(named: .darkAqua)
         scrollView.drawsBackground = false
         scrollView.borderType = .noBorder
         scrollView.hasVerticalScroller = false
         scrollView.hasHorizontalScroller = false
         scrollView.autohidesScrollers = true
 
-        let textView = VisibleCommandTextView()
+        let textView = NSTextView()
         textView.isRichText = false
         textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.isAutomaticDashSubstitutionEnabled = false
         textView.isAutomaticTextReplacementEnabled = false
         textView.isGrammarCheckingEnabled = false
         textView.isContinuousSpellCheckingEnabled = false
+        textView.font = .monospacedSystemFont(ofSize: 15, weight: .regular)
+        textView.textColor = NSColor.labelColor
         textView.backgroundColor = .clear
+        textView.insertionPointColor = NSColor.labelColor
         textView.textContainerInset = NSSize(width: 18, height: 18)
         textView.string = text
         textView.delegate = context.coordinator
         textView.drawsBackground = true
-        textView.applyVisibleStyle()
+        textView.backgroundColor = NSColor(calibratedWhite: 0.10, alpha: 1.0)
 
         scrollView.documentView = textView
         context.coordinator.textView = textView
@@ -748,8 +714,6 @@ private struct CommandEditor: NSViewRepresentable {
             textView.string = text
         }
 
-        textView.applyVisibleStyle()
-
         if isFocused.wrappedValue, textView.window?.firstResponder !== textView {
             textView.window?.makeFirstResponder(textView)
         }
@@ -757,7 +721,7 @@ private struct CommandEditor: NSViewRepresentable {
 
     final class Coordinator: NSObject, NSTextViewDelegate {
         @Binding var text: String
-        weak var textView: VisibleCommandTextView?
+        weak var textView: NSTextView?
 
         init(text: Binding<String>) {
             _text = text
@@ -765,13 +729,11 @@ private struct CommandEditor: NSViewRepresentable {
 
         func textDidChange(_ notification: Notification) {
             guard let textView else { return }
-            textView.applyVisibleStyle()
             text = textView.string
         }
 
         func textDidEndEditing(_ notification: Notification) {
             guard let textView else { return }
-            textView.applyVisibleStyle()
             text = textView.string
         }
     }
