@@ -2,13 +2,11 @@
 
 CmdEdit is a native macOS command editor overlay for `zsh`.
 
-It lets you press `Ctrl+E`, edit the current shell command in a focused floating window, browse command history, star reusable commands, and save the result back to your prompt.
+Press `Ctrl+E`, edit the current shell command in a focused floating window, browse command history, star reusable commands, and save the result back to your prompt.
 
 [Download for macOS](https://github.com/zijie-cai/CmdEdit/releases/latest)
 
 ## What It Does
-
-CmdEdit makes shell command editing less painful without replacing your terminal.
 
 - Opens from `zsh` with `Ctrl+E`
 - Edits commands like normal text
@@ -40,8 +38,6 @@ brew tap zijie-cai/cmdedit && brew install --cask cmdedit && source ~/.zshrc
 - macOS 14+
 - `zsh`
 - Xcode Command Line Tools or a local Swift toolchain
-
-If needed:
 
 ```bash
 xcode-select --install
