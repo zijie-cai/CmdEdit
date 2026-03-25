@@ -16,21 +16,8 @@ Press `Ctrl+E`, edit the current shell command in a focused floating window, bro
 
 ## Install
 
-1. Download the latest release zip
-2. Unzip the file
-3. Double-click `install.command`
-4. Run `source ~/.zshrc`
-
-Or install from source:
-
 ```bash
 git clone --depth 1 https://github.com/zijie-cai/CmdEdit.git && bash CmdEdit/CmdEdit/Scripts/install.sh && source ~/.zshrc
-```
-
-Or install with Homebrew:
-
-```bash
-brew tap zijie-cai/cmdedit && brew install --cask cmdedit && source ~/.zshrc
 ```
 
 ## Requirements
