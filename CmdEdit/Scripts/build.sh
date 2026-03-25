@@ -9,6 +9,7 @@ BUNDLE_ID="${CMDEDIT_BUNDLE_ID:-com.zijiecai.cmdedit}"
 
 echo "Building CmdEdit..."
 cd App
+rm -rf .build
 swift build -c release
 
 echo "Creating App Bundle..."
